@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrossel com Corações e Música</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Corações caindo -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (2 + Math.random() * 2) + 's';
+      heart.textContent = '❤️';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+
+  <!-- Contador de dias juntos -->
+  <div class="contador-dias">
+    <span id="dias-juntos"></span>
+  </div>
+  <script>
+    function atualizarDiasJuntos() {
+      const inicio = new Date(2022, 4, 28, 0, 0, 0); // 28/05/2022, mês 4 (Maio, zero-based)
+      const agora = new Date();
+      const diff = agora - inicio;
+
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('dias-juntos').textContent =
+        `Dias juntos desde 28/05/2022: ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos`;
+    }
+    atualizarDiasJuntos();
+    setInterval(atualizarDiasJuntos, 1000);
+  </script>
+
+  <!-- QR Code para acessar o site -->
+  <div style="text-align:center; margin: 20px;">
+    <img id="qrcode" alt="QR Code para acessar o site">
+  </div>
+  <script>
+    // Troque pelo endereço real do seu site se for publicar online
+    const url = window.location.href;
+    document.getElementById('qrcode').src =
+      'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(url);
+  </script>
+
+  <!-- Carrossel de imagens -->
+  <div class="carousel">
+    <img src="assets/images/foto1.jpg" class="active" alt="Foto 1">
+    <img src="assets/images/foto2.jpg" alt="Foto 2">
+    <img src="assets/images/foto3.jpg" alt="Foto 3">
+    <!-- Adicione mais imagens conforme necessário -->
+  </div>
+  <script>
+    const imgs = document.querySelectorAll('.carousel img');
+    let idx = 0;
+    setInterval(() => {
+      imgs[idx].classList.remove('active');
+      idx = (idx + 1) % imgs.length;
+      imgs[idx].classList.add('active');
+    }, 2000);
+  </script>
+
+  <!-- Texto -->
+  <div class="text">
+    <p>Texto abaixo com a música X</p>
+  </div>
+
+  <!-- Player de música -->
+  <div class="music-player">
+    <audio controls loop>
+      <source src="assets/musicaX.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio.
+    </audio>
+  </div>
+</body>
+</html>
