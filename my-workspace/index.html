@@ -4,83 +4,332 @@
   <meta charset="UTF-8">
   <title>Carrossel com Corações e Música</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="carrossel.css">
 </head>
 <body>
-  <!-- Corações caindo -->
-  <script>
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (2 + Math.random() * 2) + 's';
-      heart.textContent = '❤️';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 4000);
-    }
-    setInterval(createHeart, 300);
-  </script>
 
-  <!-- Contador de dias juntos -->
-  <div class="contador-dias">
-    <span id="dias-juntos"></span>
-  </div>
-  <script>
-    function atualizarDiasJuntos() {
-      const inicio = new Date(2022, 4, 28, 0, 0, 0); // 28/05/2022, mês 4 (Maio, zero-based)
-      const agora = new Date();
-      const diff = agora - inicio;
-
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutos = Math.floor((diff / (1000 * 60)) % 60);
-      const segundos = Math.floor((diff / 1000) % 60);
-
-      document.getElementById('dias-juntos').textContent =
-        `Dias juntos desde 28/05/2022: ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos`;
-    }
-    atualizarDiasJuntos();
-    setInterval(atualizarDiasJuntos, 1000);
-  </script>
-
-  <!-- QR Code para acessar o site -->
-  <div style="text-align:center; margin: 20px;">
-    <img id="qrcode" alt="QR Code para acessar o site">
-  </div>
-  <script>
-    // Troque pelo endereço real do seu site se for publicar online
-    const url = window.location.href;
-    document.getElementById('qrcode').src =
-      'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(url);
-  </script>
-
-  <!-- Carrossel de imagens -->
-  <div class="carousel">
-    <img src="assets/images/foto1.jpg" class="active" alt="Foto 1">
-    <img src="assets/images/foto2.jpg" alt="Foto 2">
-    <img src="assets/images/foto3.jpg" alt="Foto 3">
-    <!-- Adicione mais imagens conforme necessário -->
-  </div>
-  <script>
-    const imgs = document.querySelectorAll('.carousel img');
-    let idx = 0;
-    setInterval(() => {
-      imgs[idx].classList.remove('active');
-      idx = (idx + 1) % imgs.length;
-      imgs[idx].classList.add('active');
-    }, 2000);
-  </script>
-
-  <!-- Texto -->
-  <div class="text">
-    <p>Texto abaixo com a música X</p>
+  <!-- Tela de Entrada -->
+  <div id="tela-entrada" class="tela-entrada">
+    <div class="entrada-conteudo">
+      <span class="coracao">💜</span>
+      <button id="btn-entrar">Gabi e Matheus 💜</button>
+    </div>
   </div>
 
-  <!-- Player de música -->
-  <div class="music-player">
-    <audio controls loop>
-      <source src="assets/musicaX.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio.
+   <!-- Conteúdo Principal -->
+  <div id="conteudo-principal" style="display:none;">
+    <!-- Música -->
+    <div class="custom-audio-player">
+      <button onclick="togglePlay()" id="playPauseBtn">▶️</button>
+      <span id="audioStatus">Tocando: Euphoria 💜</span>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8" title="Volume">
+    </div>
+    <audio id="audio-principal" loop>
+      <source src="../fotos/jungkook - euphoria [tradução⧸legendado].mp3" type="audio/mpeg">
     </audio>
+
+    </div>
+
+    <!-- Texto fixo -->
+    <div class="text-fixed">
+      <span class="coracao">💜</span> EU TE AMO HÁ
+      <span id="dias-juntos">0000 dias, 00 horas, 00 minutos e 00 segundos</span>
+    </div>
+
+    <!-- Carrossel de Imagens -->
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-item">
+          <img src="../fotos/2.jpg" alt="Foto 2">
+          <p class="img-caption">Nosso primeiro passeio juntos 💑</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/3.jpg" alt="Foto 3">
+          <p class="img-caption">Chatolu 🐈‍⬛ 🌅</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/4.jpg" alt="Foto 4">
+          <p class="img-caption">Seu sorriso é tudo pra mim 💖</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/5.jpg" alt="Foto 5">
+          <p class="img-caption">A gente e a cindy 🐶</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/6.jpg" alt="Foto 6">
+          <p class="img-caption">Você e os pets 💕</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/7.jpg" alt="Foto 7">
+          <p class="img-caption">Te amo muito 💜</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/8.jpg" alt="Foto 8">
+          <p class="img-caption">Nosso natal 🎄</p>
+        </div>
+        <div class="carousel-item">
+          <img src="../fotos/9.jpg" alt="Foto 9">
+          <p class="img-caption">Pra sempre juntos ✨</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Texto antes da galeria polaroid -->
+    <section class="text-intro">
+      <h2 style="text-align:center; color:#a770b2; margin-top:60px;">Momentos que marcaram nossa história 💖</h2>
+      <p style="text-align:center; max-width:700px; margin:20px auto; color:#ddd; font-size:1.1em;">Nem todas as memórias cabem em palavras e nem mesmo em fotos. Algumas se eternizam em olhares, sorrisos e abraços... Aqui estão algumas fotos que guardamos no coração.</p>
+    </section>
+
+    <!-- Galeria estilo Polaroid -->
+    <section class="polaroid-galeria">
+      <div class="polaroid">
+        <img src="../fotos/primeiro encontro.jpg" alt="Foto Polaroid 1">
+        <p class="legenda">Nosso primeiro encontro 💜</p>
+      </div>
+      <div class="polaroid">
+        <img src="../fotos/Cindy.jpg" alt="Foto Polaroid 2">
+        <p class="legenda">Conhecendo a cindy 😂</p>
+      </div>
+      <div class="polaroid">
+        <img src="../fotos/D5CD7479-BA70-4842-9305-71431F80D0AB.jpg" alt="Foto Polaroid 3">
+        <p class="legenda">Adotamos o Luffy 🐈‍⬛</p>
+      </div>
+    </section>
+
+    <!-- Texto antes da nova seção -->
+    <section class="text-intro">
+      <h2 style="text-align:center; color:#a770b2; margin-top:60px;">Mais capítulos especiais 💫</h2>
+      <p style="text-align:center; max-width:700px; margin:20px auto; color:#ddd; font-size:1.1em;">
+        Quando penso em nós dois, penso em cada passo, em cada detalhe. E todos as metas que vamos realizar juntos. ✨
+      </p>
+    </section>
+
+    <!-- Nova seção de polaroids com estilo diferente -->
+    <section class="polaroid-galeria nova">
+      <div class="polaroid-alt">
+        <img src="../fotos/yuki.JPG" alt="Foto Estilo 2">
+        <p class="legenda-alt">Nossa Yuki 🧸</p>
+      </div>
+      <div class="polaroid-alt">
+        <img src="../fotos/carro.jpg" alt="Foto Estilo 2">
+        <p class="legenda-alt">Nosso primeiro carro 🚗</p>
+      </div>
+      <div class="polaroid-alt">
+        <img src="../fotos/trabalho-de-informatica-canada.png" alt="Foto Estilo 2">
+        <p class="legenda-alt">Indo trabalhar no Canadá 🍁</p>
+      </div>
+    </section>
+
+    <!-- Mensagem após as polaroids -->
+    <section class="text-final">
+      <h2 style="text-align:center; color:#a770b2; margin-top:40px;">E tudo isso... ainda é só o começo ✨</h2>
+      <p style="text-align:center; max-width:700px; margin:20px auto; color:#ddd; font-size:1.1em;">
+        Cada clique, cada lembrança, cada detalhe do nosso amor me faz acreditar que o destino caprichou quando te colocou na minha vida. 
+        E ainda temos muitos sonhos para realizar juntos!
+      </p>
+    </section>
   </div>
+
+  <!-- Fundo / Corações -->
+  <div id="background-slideshow"></div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="chuva-coracoes.js"></script>
+
+  <!-- Scroll suave opcional -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .polaroid-galeria {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 60px 20px;
+      gap: 40px;
+      background-color: #201f2b;
+    }
+    .polaroid {
+      background: white;
+      padding: 10px;
+      box-shadow: 0 8px 20px #0006;
+      width: 200px;
+      transform: rotate(var(--rot, -2deg));
+      transition: transform 0.3s;
+      border-radius: 6px;
+    }
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.05);
+      z-index: 10;
+    }
+    .polaroid img {
+      width: 100%;
+      border-radius: 4px;
+    }
+    .legenda {
+      text-align: center;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 0.95em;
+      color: #444;
+      margin-top: 8px;
+    }
+    .polaroid-alt {
+      background: #fff0f5;
+      padding: 15px;
+      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+      width: 220px;
+      border: 2px dashed #da70d6;
+      transform: rotate(var(--rot, 2deg));
+      transition: all 0.3s ease-in-out;
+      border-radius: 10px;
+    }
+    .polaroid-alt:hover {
+      transform: rotate(0deg) scale(1.1);
+    }
+    .polaroid-alt img {
+      width: 100%;
+      border-radius: 6px;
+    }
+    .legenda-alt {
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      font-size: 1em;
+      color: #5a2a6d;
+      margin-top: 10px;
+    }
+  </style>
+
+  <script>
+    // Rotação aleatória divertida para as polaroids
+    document.querySelectorAll('.polaroid, .polaroid-alt').forEach(el => {
+      const rot = (Math.random() * 6 - 3).toFixed(1);
+      el.style.setProperty('--rot', `${rot}deg`);
+    });
+  </script>
+<!-- Seção Interativa de Botões Românticos -->
+<section class="interativa-romantica">
+  <h2 style="text-align:center; color:#a770b2; margin-top:60px;">Clique em um botão e veja o que tenho a dizer 💌</h2>
+  <div class="botoes-amor">
+    <button onclick="mostrarMensagem('mensagem1')">Motivo 1</button>
+    <button onclick="mostrarMensagem('mensagem2')">Motivo 2</button>
+    <button onclick="mostrarMensagem('mensagem3')">Motivo 3</button>
+  </div>
+  <div id="mensagem-amor" class="mensagem-amor"></div>
+</section>
+
+<style>
+  .interativa-romantica {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #181c2b;
+  }
+  .botoes-amor button {
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 1em;
+    background: linear-gradient(90deg, #a770b2, #3f2b96);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px #0004;
+    transition: transform 0.2s;
+  }
+  .botoes-amor button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #3f2b96, #a770b2);
+  }
+  .mensagem-amor {
+    margin-top: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+    font-size: 1.2em;
+    min-height: 50px;
+    border-left: 4px solid #a770b2;
+    padding-left: 16px;
+    text-align: left;
+    white-space: pre-wrap;
+  }
+</style>
+
+<script>
+  const mensagens = {
+    mensagem1: "Você é a primeira pessoa em quem penso ao acordar e a última antes de dormir 💭💜",
+    mensagem2: "Cada momento nosso guardo com muito carinho nas memórias 😊✨",
+    mensagem3: "Nosso amor é minha maior certeza. Obrigado por ser meu lugar seguro e meu melhor sonho 💖"
+  };
+
+  function mostrarMensagem(chave) {
+    const texto = mensagens[chave];
+    const destino = document.getElementById("mensagem-amor");
+    destino.innerHTML = "";
+    let i = 0;
+    const intervalo = setInterval(() => {
+      if (i < texto.length) {
+        destino.innerHTML += texto.charAt(i);
+        i++;
+      } else {
+        clearInterval(intervalo);
+      }
+    }, 40);
+  }
+</script>
+
+<style>
+.custom-audio-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 400px;
+  padding: 12px 20px;
+  background: linear-gradient(to right, #a770b2, #3f2b96);
+  color: white;
+  border-radius: 10px;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.custom-audio-player button {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  border-radius: 50%;
+  font-size: 1.2em;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+</style>
+
+<script>
+  const audio = document.getElementById("audio-principal");
+  const playPauseBtn = document.getElementById("playPauseBtn");
+  let isPlaying = false;
+
+  function togglePlay() {
+    if (isPlaying) {
+      audio.pause();
+      playPauseBtn.textContent = "▶️";
+    } else {
+      audio.play();
+      playPauseBtn.textContent = "⏸️";
+    }
+    isPlaying = !isPlaying;
+  }
+
+  // autoplay assim que a tela principal for exibida
+  document.getElementById("btn-entrar").addEventListener("click", () => {
+    setTimeout(() => {
+      audio.play();
+      isPlaying = true;
+      playPauseBtn.textContent = "⏸️";
+    }, 500);
+  });
+</script>
+
+
 </body>
 </html>
